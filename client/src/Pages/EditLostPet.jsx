@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import Header from "../Components/Header";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const EditLostPet = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const EditLostPet = () => {
   const [pet, setPet] = useState({});
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/getLostPets`).then((res) => {
+    axios.get(`${API_URL}/getLostPets`).then((res) => {
       const found = res.data.pets.find((p) => p._id === id);
       setPet(found || {});
     });
@@ -24,7 +26,7 @@ const EditLostPet = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.put(`http://localhost:3001/updateLostPet/${id}`, pet);
+    await axios.put(`${API_URL}/updateLostPet/${id}`, pet);
 
     alert("Updated successfully");
     navigate("/profile");

@@ -6,8 +6,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { userSchemaValidation } from "../Validations/UserValidations";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Register = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,21 +20,21 @@ const Register = () => {
   });
 
   const onSubmit = async (data) => {
-  try {
-    const response = await axios.post("http://localhost:3001/registerUser", {
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      password: data.password,
-    });
+    try {
+      const response = await axios.post(`${API_URL}/registerUser`, {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+      });
 
-    alert(response.data.msg);
-    navigate("/login");
-  } catch (error) {
-    console.log(error);
-    alert("Registration failed");
-  }
-};
+      alert(response.data.msg);
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Registration failed");
+    }
+  };
 
   return (
     <div className="auth-page">
@@ -66,7 +69,9 @@ const Register = () => {
           />
           <small>{errors.confirmPassword?.message}</small>
 
-          <button type="submit" className="auth-btn">Sign Up</button>
+          <button type="submit" className="auth-btn">
+            Sign Up
+          </button>
         </form>
 
         <p className="switch-auth">

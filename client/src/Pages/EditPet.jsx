@@ -4,6 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../App.css";
 import Header from "../Components/Header";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const EditPet = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ const EditPet = () => {
   const [pet, setPet] = useState({});
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/getPet/${id}`).then((res) => {
+    axios.get(`${API_URL}/getPet/${id}`).then((res) => {
       setPet(res.data.pet);
     });
   }, [id]);
@@ -23,7 +25,7 @@ const EditPet = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await axios.put(`http://localhost:3001/updatePet/${id}`, pet);
+    await axios.put(`${API_URL}/updatePet/${id}`, pet);
 
     alert("Updated successfully");
     navigate("/profile");

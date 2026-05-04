@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 import Header from "../Components/Header";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Profile = () => {
   const user = useSelector((state) => state.users.user);
   const navigate = useNavigate();
@@ -16,22 +18,22 @@ const Profile = () => {
   useEffect(() => {
     if (user?.email) {
       axios
-        .get(`http://localhost:3001/myPets/${user.email}`)
+        .get(`${API_URL}/myPets/${user.email}`)
         .then((res) => setMyPets(res.data.pets));
 
       axios
-        .get(`http://localhost:3001/myLostPets/${user.email}`)
+        .get(`${API_URL}/myLostPets/${user.email}`)
         .then((res) => setMyLostPets(res.data.pets));
     }
   }, [user]);
 
   const deletePet = async (id) => {
-    await axios.delete(`http://localhost:3001/deletePet/${id}`);
+    await axios.delete(`${API_URL}/deletePet/${id}`);
     setMyPets(myPets.filter((p) => p._id !== id));
   };
 
   const deleteLost = async (id) => {
-    await axios.delete(`http://localhost:3001/deleteLostPet/${id}`);
+    await axios.delete(`${API_URL}/deleteLostPet/${id}`);
     setMyLostPets(myLostPets.filter((p) => p._id !== id));
   };
 

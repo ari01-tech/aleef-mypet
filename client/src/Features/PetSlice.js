@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const initialState = {
   pets: [],
   pet: {},
@@ -9,17 +11,17 @@ const initialState = {
 };
 
 export const addPet = createAsyncThunk("pets/addPet", async (petData) => {
-  const response = await axios.post("http://localhost:3001/addPet", petData);
+  const response = await axios.post(`${API_URL}/addPet`, petData);
   return response.data.pet;
 });
 
 export const getPets = createAsyncThunk("pets/getPets", async () => {
-  const response = await axios.get("http://localhost:3001/getPets");
+  const response = await axios.get(`${API_URL}/getPets`);
   return response.data.pets;
 });
 
 export const getPet = createAsyncThunk("pets/getPet", async (id) => {
-  const response = await axios.get(`http://localhost:3001/getPet/${id}`);
+  const response = await axios.get(`${API_URL}/getPet/${id}`);
   return response.data.pet;
 });
 
@@ -59,8 +61,8 @@ const petSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(getPet.fulfilled, (state, action) => {
-  state.pet = action.payload;
-});
+        state.pet = action.payload;
+      });
   },
 });
 
